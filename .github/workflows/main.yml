@@ -13,7 +13,7 @@ jobs:
       matrix:
         postgres: [9.6, 10, 11, 12, 13]
         postgis: ['2.5', '3.1']
-        base: [default, alpine]
+        variant: [default, alpine]
 
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
@@ -29,7 +29,7 @@ jobs:
       - name: docker hub login
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: build
+      - name: ${{ matrix.postgres }}-${{ matrix.postgis }}-${{ matrix.variant }}
         run: |
           cd ${{ matrix.postgres }}-${{ matrix.postgis }}/${{ matrix.variant }}
           docker buildx build \
