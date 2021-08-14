@@ -30,7 +30,7 @@ jobs:
 
       - name: ${{ matrix.version }}-${{ matrix.variant }}
         run: |
-          cd ${{ matrix.version }}-/${{ matrix.variant }}
+          cd ${{ matrix.version }}/${{ matrix.variant }}
           docker buildx build \
             --push \
             --tag robertbeal/postgis:${{ matrix.version }}-${{ matrix.variant }} \
