@@ -11,7 +11,7 @@ jobs:
   build:
     strategy:
       matrix:
-        version: ['10-2.5', '10-3.1', '12-2.5', '12-3.1']
+        version: ['10-2.5']
         variant: [default, alpine]
 
     runs-on: ubuntu-latest
