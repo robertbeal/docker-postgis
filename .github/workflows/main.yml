@@ -11,8 +11,7 @@ jobs:
   build:
     strategy:
       matrix:
-        postgres: [9.6, 10, 11, 12, 13]
-        postgis: ['2.5', '3.1']
+        version: ['10-2.5', 10-3.1', '12-2.5', '12-3.1']
         variant: [default, alpine]
 
     runs-on: ubuntu-latest
@@ -29,11 +28,11 @@ jobs:
       - name: docker hub login
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: ${{ matrix.postgres }}-${{ matrix.postgis }}-${{ matrix.variant }}
+      - name: ${{ matrix.version }}-${{ matrix.variant }}
         run: |
-          cd ${{ matrix.postgres }}-${{ matrix.postgis }}/${{ matrix.variant }}
+          cd ${{ matrix.version }}-/${{ matrix.variant }}
           docker buildx build \
             --push \
-            --tag robertbeal/postgis:${{ matrix.postgres }}-${{ matrix.postgis }}-${{ matrix.variant }} \
+            --tag robertbeal/postgis:${{ matrix.version }}-${{ matrix.variant }} \
             --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8 .
 
