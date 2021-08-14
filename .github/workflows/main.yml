@@ -9,6 +9,12 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        postgres: [9.6, 10, 11, 12, 13]
+        postgis: ['2.5', '3.1']
+        base: [default, alpine]
+
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     
@@ -25,9 +31,9 @@ jobs:
 
       - name: build
         run: |
-          cd 12-3.1
+          cd ${{ matrix.postgres }}-${{ matrix.postgis }}/${{ matrix.variant }}
           docker buildx build \
             --push \
-            --tag robertbeal/postgis:12 \
-            --platform linux/arm64/v8 .
+            --tag robertbeal/postgis:${{ matrix.postgres }}-${{ matrix.postgis }}-${{ matrix.variant }} \
+            --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8 .
 
